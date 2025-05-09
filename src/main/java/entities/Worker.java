@@ -11,14 +11,15 @@ public class Worker {
     @Id
     @Column(name = "worker_id", nullable = false)
     private Integer id;
+    private Long workerId;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "position_id", nullable = false)
-    private entities.Position position;
+    private Position position;
 
     @Column(name = "experience")
     private Long experience;
@@ -27,13 +28,14 @@ public class Worker {
     private Long salary;
 
     @ManyToMany(mappedBy = "workers")
-    private Set<entities.Position> positions = new LinkedHashSet<>();
-
-    @ManyToMany(mappedBy = "workers")
     private Set<Tour> tours = new LinkedHashSet<>();
 
     @ManyToMany(mappedBy = "workers")
     private Set<entities.Language> languages = new LinkedHashSet<>();
+
+    public Long getWorkerId() {
+        return workerId;
+    }
 
     public Integer getId() {
         return id;
@@ -41,6 +43,10 @@ public class Worker {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public void setWorkerId(Long workerId) {
+        this.workerId = workerId;
     }
 
     public User getUser() {
@@ -73,14 +79,6 @@ public class Worker {
 
     public void setSalary(Long salary) {
         this.salary = salary;
-    }
-
-    public Set<entities.Position> getPositions() {
-        return positions;
-    }
-
-    public void setPositions(Set<entities.Position> positions) {
-        this.positions = positions;
     }
 
     public Set<Tour> getTours() {

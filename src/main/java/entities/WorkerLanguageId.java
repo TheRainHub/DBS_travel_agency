@@ -15,11 +15,11 @@ public class WorkerLanguageId implements java.io.Serializable {
     @Column(name = "language_id", nullable = false)
     private String languageId;
 
-    public Long getWorkerId() {
+    public Long getworkerId() {
         return workerId;
     }
 
-    public void setWorkerId(Long workerId) {
+    public void setworkerId(Long workerId) {
         this.workerId = workerId;
     }
 

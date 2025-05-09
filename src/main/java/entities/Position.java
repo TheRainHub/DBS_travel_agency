@@ -12,7 +12,7 @@ public class Position {
     @Column(name = "position_id", nullable = false)
     private Long id;
 
-    @ManyToMany(mappedBy = "position")
+    @OneToMany(mappedBy = "position")
     private Set<Worker> workers = new LinkedHashSet<>();
 
     public Long getId() {

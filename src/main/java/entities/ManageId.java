@@ -15,11 +15,11 @@ public class ManageId implements java.io.Serializable {
     @Column(name = "tour_id", nullable = false)
     private Long tourId;
 
-    public Long getWorkerId() {
+    public Long getworkerId() {
         return workerId;
     }
 
-    public void setWorkerId(Long workerId) {
+    public void setworkerId(Long workerId) {
         this.workerId = workerId;
     }
 
