@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="mandzvik" uuid="38832524-b80b-4d9e-9f4f-79153c0fdce5">
+    <data-source source="LOCAL" name="mandzvik" single-connection="true" uuid="38832524-b80b-4d9e-9f4f-79153c0fdce5">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
@@ -13,6 +13,7 @@
         <property name="com.intellij.clouds.kubernetes.db.container.port" />
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
+      <keep-alive enable="true" />
     </data-source>
   </component>
 </project>

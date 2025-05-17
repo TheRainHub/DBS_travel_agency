@@ -1,32 +1,25 @@
 package DAO;
 
 import entities.Position;
-import entities.User;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.Optional;
 
 public class PositionDao extends BaseDao<Position> {
-    public PositionDao(Connection conn) {
-        super(conn);
+    public PositionDao(EntityManager em) {
+        super(em, Position.class);
     }
 
-    public Position findById(int id) throws SQLException {
-        String sql = "SELECT * FROM \"Positions\" WHERE position_id = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, id);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    Position position = new Position();
-                    position.setId(rs.getLong("position_id"));
-                    position.setName(rs.getString("name"));
-                    // Дополнительные поля...
-                    return position;
-                }
-            }
+    public Optional<Position> findByName(String name) {
+        try {
+            Position p = entityManager.createQuery(
+                            "SELECT p FROM Position p WHERE p.name = :name", Position.class)
+                    .setParameter("name", name)
+                    .getSingleResult();
+            return Optional.of(p);
+        } catch (NoResultException e) {
+            return Optional.empty();
         }
-        return null;
     }
 }

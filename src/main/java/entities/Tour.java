@@ -10,6 +10,7 @@ import java.util.Set;
 @Table(name = "\"Tour\"")
 public class Tour {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tour_id", nullable = false)
     private Integer id;
 
@@ -40,7 +41,7 @@ public class Tour {
     @OneToMany(mappedBy = "tour")
     private Set<Booking> bookings = new LinkedHashSet<>();
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "tours")
     private Set<entities.Worker> workers = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "tour")

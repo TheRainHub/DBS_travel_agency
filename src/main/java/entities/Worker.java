@@ -7,55 +7,22 @@ import java.util.Set;
 
 @Entity
 @Table(name = "\"Workers\"")
-public class Worker {
-    @Id
-    @Column(name = "worker_id", nullable = false)
-    private Integer id;
-    private Long workerId;
-
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    @ManyToOne
+@PrimaryKeyJoinColumn(name = "user_id")
+public class Worker extends User {
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "position_id", nullable = false)
     private Position position;
 
-    @Column(name = "experience")
     private Long experience;
-
-    @Column(name = "salary")
     private Long salary;
 
-    @ManyToMany(mappedBy = "workers")
+    @ManyToMany
+    @JoinTable(name = "\"Worker_language\"", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "language_id"))
+    private Set<Language> languages = new LinkedHashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "\"Tour_Workers\"", joinColumns = @JoinColumn(name = "\"user_id\""), inverseJoinColumns = @JoinColumn(name = "\"tour_id\""))
     private Set<Tour> tours = new LinkedHashSet<>();
-
-    @ManyToMany(mappedBy = "workers")
-    private Set<entities.Language> languages = new LinkedHashSet<>();
-
-    public Long getWorkerId() {
-        return workerId;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setWorkerId(Long workerId) {
-        this.workerId = workerId;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public entities.Position getPosition() {
         return position;

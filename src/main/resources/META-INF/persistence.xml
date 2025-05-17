@@ -1,32 +1,36 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="https://jakarta.ee/xml/ns/persistence"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_2.xsd"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence
+                                 https://jakarta.ee/xml/ns/persistence/persistence_3_2.xsd"
              version="3.2">
+
     <persistence-unit name="myJpaUnit">
 
-        <class>entities.Booking</class>
-        <class>entities.Customer</class>
-        <class>entities.IsAdministrator</class>
-        <class>entities.Manage</class>
-        <class>entities.PersonalDatum</class>
-        <class>entities.Review</class>
-        <class>entities.Tour</class>
         <class>entities.User</class>
-        <class>entities.WorkerLanguage</class>
         <class>entities.Worker</class>
-        <class>entities.Language</class>
+        <class>entities.Customer</class>
         <class>entities.Position</class>
-
+        <class>entities.Language</class>
+        <class>entities.Tour</class>
+        <class>entities.Booking</class>
+        <class>entities.Review</class>
+        <class>entities.PersonalDatum</class>
 
         <properties>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://slon.felk.cvut.cz:5432/mandzvik"/>
-            <property name="jakarta.persistence.jdbc.user" value="mandzvik"/>
+            <!-- JDBC  -->
+            <property name="jakarta.persistence.jdbc.url"
+                      value="jdbc:postgresql://slon.felk.cvut.cz:5432/mandzvik"/>
+            <property name="jakarta.persistence.jdbc.user"     value="mandzvik"/>
             <property name="jakarta.persistence.jdbc.password" value="mandzvik_DBS25"/>
-            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="hibernate.show_sql" value="true"/>
-            <property name="hibernate.format_sql" value="true"/>
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="jakarta.persistence.jdbc.driver"   value="org.postgresql.Driver"/>
+
+            <!-- Hibernate  -->
+            <property name="hibernate.dialect"
+                      value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="validate"/>
+            <property name="hibernate.show_sql"     value="true"/>
+            <property name="hibernate.format_sql"   value="true"/>
         </properties>
     </persistence-unit>
 </persistence>
