@@ -145,16 +145,21 @@ public class TourService {
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
-            // 8.1 удалить все Booking для этого тура
+
+            // 1) удаляем все Booking для этого тура
             em.createQuery("DELETE FROM Booking b WHERE b.tour.id = :tid").setParameter("tid", tourId).executeUpdate();
-            logService.log("DELETE Booking by Tour", (long) tourId);
-            // 8.2 удалить сам тур
-            tourDao.delete(tourDao.findById(tourId));
-            logService.log("DELETE Tour", (long) tourId);
+
+            // 2) удаляем все Review для этого тура (если есть)
+            em.createQuery("DELETE FROM Review r WHERE r.tour.id = :tid").setParameter("tid", tourId).executeUpdate();
+
+            // 3) теперь удаляем сам Tour через JPQL
+            em.createQuery("DELETE FROM Tour t WHERE t.id = :tid").setParameter("tid", tourId).executeUpdate();
+
             tx.commit();
         } catch (RuntimeException ex) {
             if (tx.isActive()) tx.rollback();
             throw ex;
         }
     }
+
 }
