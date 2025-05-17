@@ -14,6 +14,7 @@ public class Position {
 
     @OneToMany(mappedBy = "position")
     private Set<Worker> workers = new LinkedHashSet<>();
+    private String name;
 
     public Long getId() {
         return id;
@@ -31,4 +32,7 @@ public class Position {
         this.workers = workers;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 }
