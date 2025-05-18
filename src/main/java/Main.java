@@ -29,7 +29,7 @@ public class Main {
             Scanner in = new Scanner(System.in);
 
             System.out.println("=== TOUR DEMO ===");
-            // 1) создать два тура
+            // 1) create two tours
             Tour tour1 = ts.createTour("Mountain Adventure", LocalDate.now().plusDays(7), "Hike in the mountains", 20, 1500, "Prague", "Main St.", 10);
             System.out.println("Created tour id=" + tour1.getId());
 
@@ -38,40 +38,40 @@ public class Main {
             System.out.println("Created tour id=" + tour2.getId());
 
 
-            // 2) обновить описание и вместимость первого тура
+            // 2) update description and tour capacity
             ts.updateTour(tour1.getId(), "Extended mountain hike with guide", 18L, null);
             System.out.println("Updated tour id=" + tour1.getId());
 
 
-            // 3) найти туры в Prague
+            // 3) find tour in Prague
             List<Tour> inPrague = ts.findByCity("Prague");
             System.out.println("Tours in Prague:");
             inPrague.forEach(t -> System.out.println("  " + t.getTourName()));
 
 
-            // 4) найти туры за ближайшие 10 дней
+            // 4) find tours for next 10 days
             List<Tour> upcoming = ts.findByDateRange(LocalDate.now(), LocalDate.now().plusDays(10));
             System.out.println("Upcoming tours:");
             upcoming.forEach(t -> System.out.println("  " + t.getTourName()));
 
 
-            // 5) показать доступные туры (capacity > bookings)
+            // 5) show available tours (capacity > bookings)
             List<Tour> available = ts.findAvailableTours();
             System.out.println("Available tours:");
             available.forEach(t -> System.out.printf("  %s (capacity=%d)%n", t.getTourName(), t.getCapacity()));
 
 
-            // 6) резервируем место в первом туре
+            // 6) make reservation
             boolean reserved = ts.reserveSpot(tour1.getId());
             System.out.println("Reserve spot in tour1: " + reserved);
 
 
-            // 7) отменяем резерв
+            // 7) cancelled reservation
             boolean cancelled = ts.cancelReservation(tour1.getId());
             System.out.println("Cancel reservation in tour1: " + cancelled);
 
 
-            // 8) отменяем второй тур целиком
+            // 8) cancel hole tour
             ts.cancelTour(tour2.getId());
             System.out.println("Cancelled tour id=" + tour2.getId());
 

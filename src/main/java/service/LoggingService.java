@@ -17,19 +17,12 @@ public class LoggingService {
         this.logDao = new LogDao(em);
     }
 
-    /**
-     * Записать лог-операцию
-     * @param op  – тип операции, например "INSERT User" или "DELETE Booking"
-     * @param recordId – id того, к чему относится операция
-     */
     public void log(String op, Long recordId) {
-        // Build the log entry
         Log entry = new Log();
         entry.setOperation(op);
         entry.setOperationTime(LocalDateTime.now());
         entry.setRecordId(recordId);
 
-        // Delegate to BaseDao.runInTx (via LogDao.save)
         logDao.save(entry);
     }
 

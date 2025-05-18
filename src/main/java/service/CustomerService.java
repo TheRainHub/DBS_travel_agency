@@ -34,17 +34,14 @@ public class CustomerService {
         this.logService = new LoggingService(em);
     }
 
-    /*──────────────────────────────────────────────────────────────
-      1) Регистрация клиента  (одна сущность → две строки в БД)
-    ──────────────────────────────────────────────────────────────*/
     public Customer register(String username, String email) {
 
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
 
-            Customer c = new Customer();          // ← НАСЛЕДНИК User
-            c.setUsername(username);              // поля из User
+            Customer c = new Customer();
+            c.setUsername(username);
             c.setEmail(email);
             c.setRegistrationDate(LocalDate.now());
 
@@ -58,9 +55,6 @@ public class CustomerService {
         }
     }
 
-    /*──────────────────────────────────────────────────────────────
-      2) Бронирование тура
-    ──────────────────────────────────────────────────────────────*/
     public Booking makeBooking(int customerId, int tourId) {
 
         EntityTransaction tx = em.getTransaction();
@@ -87,7 +81,6 @@ public class CustomerService {
         }
     }
 
-    /* 3) Подтверждение оплаты */
     public void confirmPayment(int bookingId) {
         EntityTransaction tx = em.getTransaction();
         try {
@@ -106,7 +99,6 @@ public class CustomerService {
         }
     }
 
-    /* 4) Оставить отзыв */
     public Review leaveReview(int customerId, int tourId, int rating, String comment) {
 
         EntityTransaction tx = em.getTransaction();
@@ -133,20 +125,15 @@ public class CustomerService {
             throw ex;
         }
     }
-
-    /* 5) Удалить клиента + каскадом его бронирования / отзывы */
     public void deleteCustomer(int customerId) {
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
 
-            // 1) Удаляем все отзывы этого клиента
             em.createQuery("DELETE FROM Review r WHERE r.customer.id = :cid").setParameter("cid", customerId).executeUpdate();
 
-            // 2) Удаляем все бронирования этого клиента
             em.createQuery("DELETE FROM Booking b WHERE b.customer.id = :cid").setParameter("cid", customerId).executeUpdate();
 
-            // 3) Удаляем сам объект Customer
             em.createQuery("DELETE FROM Customer c WHERE c.id = :cid").setParameter("cid", customerId).executeUpdate();
 
             logService.log("DELETE Customer", (long) customerId);
@@ -157,7 +144,6 @@ public class CustomerService {
         }
     }
 
-    /* 6) Активные бронирования клиента (пример чтения) */
     public List<Booking> findActiveBookings(int customerId) {
         return em.createQuery("""
                 SELECT b FROM Booking b

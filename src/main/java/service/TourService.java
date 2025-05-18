@@ -23,9 +23,6 @@ public class TourService {
         this.logService = new LoggingService(em);
     }
 
-    /**
-     * 1) Создать новый тур
-     */
     public Tour createTour(String name, LocalDate startDate, String description, long capacity, long price, String city, String street, long buildingNumber) {
         EntityTransaction tx = em.getTransaction();
         try {
@@ -49,9 +46,6 @@ public class TourService {
         }
     }
 
-    /**
-     * 2) Обновить выбранные поля тура
-     */
     public Tour updateTour(int tourId, String newDescription, Long newCapacity, Long newPrice) {
         EntityTransaction tx = em.getTransaction();
         try {
@@ -71,30 +65,18 @@ public class TourService {
         }
     }
 
-    /**
-     * 3) Найти все туры в указанном городе
-     */
     public List<Tour> findByCity(String city) {
         return em.createQuery("SELECT t FROM Tour t WHERE t.city = :city", Tour.class).setParameter("city", city).getResultList();
     }
 
-    /**
-     * 4) Найти туры в заданном диапазоне дат
-     */
     public List<Tour> findByDateRange(LocalDate from, LocalDate to) {
         return em.createQuery("SELECT t FROM Tour t " + "WHERE t.startDate BETWEEN :from AND :to", Tour.class).setParameter("from", from).setParameter("to", to).getResultList();
     }
 
-    /**
-     * 5) Показать туры, где свободных мест больше нуля
-     */
     public List<Tour> findAvailableTours() {
         return em.createQuery("SELECT t FROM Tour t " + "WHERE t.capacity > (" + "SELECT COUNT(b) FROM Booking b WHERE b.tour.id = t.id" + ")", Tour.class).getResultList();
     }
 
-    /**
-     * 6) Зарезервировать место (уменьшаем capacity на 1)
-     */
     public boolean reserveSpot(int tourId) {
         EntityTransaction tx = em.getTransaction();
         try {
@@ -115,9 +97,6 @@ public class TourService {
         }
     }
 
-    /**
-     * 7) Отменить бронь места (увеличиваем capacity на 1)
-     */
     public boolean cancelReservation(int tourId) {
         EntityTransaction tx = em.getTransaction();
         try {
@@ -138,21 +117,15 @@ public class TourService {
         }
     }
 
-    /**
-     * 8) Отменить тур целиком (удалить тур и все связанные бронирования)
-     */
     public void cancelTour(int tourId) {
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
 
-            // 1) удаляем все Booking для этого тура
             em.createQuery("DELETE FROM Booking b WHERE b.tour.id = :tid").setParameter("tid", tourId).executeUpdate();
 
-            // 2) удаляем все Review для этого тура (если есть)
             em.createQuery("DELETE FROM Review r WHERE r.tour.id = :tid").setParameter("tid", tourId).executeUpdate();
 
-            // 3) теперь удаляем сам Tour через JPQL
             em.createQuery("DELETE FROM Tour t WHERE t.id = :tid").setParameter("tid", tourId).executeUpdate();
 
             tx.commit();
