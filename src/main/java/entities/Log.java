@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "\"Log\"")           // или просто "Log", если без кавычек
+@Table(name = "\"Log\"")
 public class Log {
 
     @Id
@@ -21,7 +21,6 @@ public class Log {
     @Column(name = "record_id", nullable = false)
     private Long recordId;
 
-    /* getters / setters */
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
